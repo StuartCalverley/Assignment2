@@ -36,4 +36,23 @@ router.get('/recentGame', function(req,res,next) {
 	})
 })
 
+router.get('/currentUsers', function(req,res,next) {
+	pg.connect(connectionString, function(err,clients,done) {
+		if(err) {
+			done();
+			res.send("ERROR");
+		} else {
+			clients.query("SELECT * FROM users WHERE active=TRUE;", function(error, result) {
+				if(error) {
+					done();
+					res.send("ERROR");
+				} else {
+					done();
+					res.send(["SUCCESS", result.rows.length]);
+				}
+			})
+		}	
+	})
+})
+
 module.exports = router;

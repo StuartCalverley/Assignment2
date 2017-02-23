@@ -2,9 +2,34 @@ function signOut() {
 	var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
     	console.log('User signed out.');
+    	console.log(sessionStorage.getItem("email"));
+    	$.ajax({
+    		type: 'GET',
+    		url: '/logout',
+    		data: {email: sessionStorage.getItem("email")},
+    		success: function(output) {
+    			sessionStorage.setItem("email", "");
+    			window.location.href="/";
+
+    		}
+    	})
     });
-    window.location.href="/";
 }
+
+
+window.setInterval(function() {
+	$.ajax({
+		type: 'GET',
+		url: '/mainPage/currentUsers',
+		success: function(output) {
+			console.log(output[0]);
+			if(output[0] == "SUCCESS") {
+				$('#numOfUsers').html("Number of current users: "+ output[1]);
+			}
+			//
+		}
+	})
+}, 7000);
 
 $(document).ready(function() {
 	

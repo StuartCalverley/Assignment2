@@ -70,6 +70,51 @@ router.get('/registerUser', function(req,res,next) {
 	})
 })
 
+
+router.get('/logout', function(req,res,next) {
+	var email = req.query.email;
+	console.log(email);
+	pg.connect(connectionString, function(err,clients, done) {
+		
+		if(err) {
+			done();
+			res.send("ERROR");
+		} else {
+			clients.query("UPDATE users SET active = FALSE WHERE email = ($1);",[email],function(error,resulter) {
+			if(error) {
+				done();
+				res.send("ERROR");
+			} else {
+				done();
+				res.send("SUCCESS");
+			}
+		})
+		}		
+	})
+})
+
+router.get('/update', function(req,res,next) {
+	var email = req.query.email;	
+	console.log("updating active");
+	pg.connect(connectionString, function(err,clients, done) {
+		
+		if(err) {
+			done();
+			res.send(err);
+		} else {
+			clients.query("UPDATE users SET active=TRUE WHERE email=($1);",[email],function(error,resulter) {
+			if(error) {
+				done();
+				res.send(error);
+			} else {
+				done();
+				res.send(resulter);
+			}
+		})
+		}
+	})
+})
+
 router.get('/application', function(req,res, next) {
 	var googleSignIn = true;
 	var email = req.query.param1;
@@ -87,19 +132,22 @@ router.get('/application', function(req,res, next) {
 	    	} catch (err) {
 	    		googleSignIn = false;
 	    		pg.connect(connectionString, function (err, clients, done) {
-	    			done();
 	    			if(err) {
-	    				console.log("NOPE");
+	    				done();
+	    				console.log(err);
 	    				res.redirect('/');
 	    			} else {
 	    				clients.query("SELECT * FROM users WHERE email='"+email+"';", function(error, result) {
 		    				if(error) {
+		    					done();
 		    					console.log("DAMN");
 		    					res.redirect('/');
 		    				}
 		    				if(result == undefined) {
+		    					done();
 		    					res.redirect('/');
 		    				} else {
+		    					done();
 		    					try {
 		    						bcrypt.compare(password, result.rows[0].password, function(err, ser) {
 				    					if(ser) {
