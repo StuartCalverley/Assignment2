@@ -5,7 +5,7 @@ const pg = require('pg');
 const connectionString = 'postgres://stuartCalverley:Nexxis13@assignment2db.cqoihnr68do8.us-west-2.rds.amazonaws.com:5432/assign2';
 var value = new pg.Client(connectionString);
 var auth = new GoogleAuth;
-var client = new auth.OAuth2("814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com", '', '');
+var client = new auth.OAuth2("221094573610-0ckr2a3h0d8rpa18fbpsh09381qpn25c.apps.googleusercontent.com", '', '');
 var router = express.Router();
 
 router.get('/', function(req,res,next) {

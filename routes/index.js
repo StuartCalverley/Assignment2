@@ -7,7 +7,7 @@ var salt = bcrypt.genSaltSync(10);
 const connectionString = 'postgres://stuartCalverley:Nexxis13@assignment2db.cqoihnr68do8.us-west-2.rds.amazonaws.com:5432/assign2';
 var value = new pg.Client(connectionString);
 var auth = new GoogleAuth;
-var client = new auth.OAuth2("814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com", '', '');
+var client = new auth.OAuth2("221094573610-0ckr2a3h0d8rpa18fbpsh09381qpn25c.apps.googleusercontent.com", '', '');
 var router = express.Router();
 
 /* GET home page. */
@@ -31,7 +31,7 @@ router.get('/auth', function(req,res,next) {
 	var token = req.query.token;
 	client.verifyIdToken(
     token,
-    "814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com",
+    "221094573610-0ckr2a3h0d8rpa18fbpsh09381qpn25c.apps.googleusercontent.com",
     // Or, if multiple clients access the backend:
     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3],
     function(e, login) {
@@ -42,7 +42,7 @@ router.get('/auth', function(req,res,next) {
     	} catch (error) {
     		res.send(error);
     	}
-      
+      	
       // If request specified a G Suite domain:
       //var domain = payload['hd'];
     });
@@ -90,7 +90,7 @@ router.get('/logout', function(req,res,next) {
 				res.send("ERROR");
 			} else {
 				done();
-				res.send("SUCCESS");
+				res.send("SUCCESS");	
 			}
 		})
 		}		
@@ -126,7 +126,7 @@ router.get('/application', function(req,res, next) {
 	try {
 		client.verifyIdToken(
 	    req.query.param1,
-	    "814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com",
+	    "221094573610-0ckr2a3h0d8rpa18fbpsh09381qpn25c.apps.googleusercontent.com",
 	    // Or, if multiple clients access the backend:
 	    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3],
 	    function(e, login) {
