@@ -1,11 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<style>
+       #map {
+        height: 700px;
+        width: 100%;
+        border-style: solid;
+       }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script language="JavaScript" type="text/javascript" src="javascripts/twitterStuff.js"></script>
+    <script language="JavaScript" type="text/javascript" src="javascripts/login.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com">
+
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  	<div class="container">
+  		<div class="jumbotron">
+    		<h1>Assignment 2</h1> 
+    		<p>Click the Button to sign in with your google account</p><br/><br/>
+    		<div class="g-signin2" data-onsuccess="onSignIn"></div>
+  		</div>
+      <h3> Login </h3>
+      <form>
+        Email: <input type="text" id="emailLogin"><br><br>
+        Password: <input type="password" id="passwordLogin"><br>
+      </form>
+      <button id="loginButton">Login</button><br><br>
+      <a onclick="signUpPage();">Create an account</a>
+	</div>
+	
+	<form>
+
+	</form>
+
+    
   </body>
 </html>
+<!-- ID = 814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com -->
+<!-- Secret = W9YGbTRRgyg3mcqrJLGh9dFj -->

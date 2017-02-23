@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="javascripts/application.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com">
+    <link rel="stylesheet" href="stylesheets/main.css">
+<title>Page Title</title>
+</head>
+<body>
+<div class="g-signin2" data-onsuccess="onSignIn" style="display: none;"></div>
+<ul>
+	<li style="float:right"><a class="active" onclick="signOut()">Sign Out</a></li>
+</ul>
+</body>
+
+<div class="row" style="padding-left: 30px; background-color: #d3d3d3;" >
+	<div class="col-lg-4">
+		<h3>Steam ID For Friends List: </h3><input type="text" id="steamID" value="76561198056800639"><br><br>
+		<button type="button" id="submitID" class="btn btn-primary btn-lg">Submit</button><br><br>
+		<div id="dynamic1">
+			<table class='table-bordered' style='height:100%'>
+				<thead>
+					<tr><th style="background-color: #D9853B">Profile Picture</th><th style="background-color: #D9853B">User Info</th></tr>
+					<tbody id="friendsTable">
+						
+					</tbody>
+				</thead>
+			</table>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<h3>Steam ID For Game List: </h3><input type="text" id="steamIdGame" value="76561198056800639"><br><br>
+		<button type="button" id="submitIdGame" class="btn btn-primary btn-lg">Submit</button><br><br>
+		<div id="dynamic2">
+			<table class='table-bordered' style='height:100%'>
+				<thead>
+					<tr><th style="background-color: #D9853B">Game Picture</th><th style="background-color: #D9853B">Game Stats</th></tr>
+					<tbody id="gameTable">
+						
+					</tbody>
+				</thead>
+			</table>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<h3>Steam ID For Recent Games Played: </h3><input type="text" id="steamIdRecent" value="76561198056800639"><br><br>
+		<button type="button" id="submitIdRecent" class="btn btn-primary btn-lg">Submit</button><br><br>
+		<div id="dynamic3">
+			<table class='table-bordered' style='height:100%'>
+				<thead>
+					<tr><th style="background-color: #D9853B">Game Picture</th><th style="background-color: #D9853B">Game Stats</th></tr>
+					<tbody id="recentTable">
+						
+					</tbody>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
