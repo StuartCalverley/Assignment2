@@ -4,7 +4,7 @@ var GoogleAuth = require('google-auth-library');
 const pg = require('pg');
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
-const connectionString = 'postgres://postgres:Nexxis13@localhost:5433/assignment2';
+const connectionString = 'postgres://stuartCalverley:Nexxis13@assignment2db.cqoihnr68do8.us-west-2.rds.amazonaws.com:5432/assign2';
 var value = new pg.Client(connectionString);
 var auth = new GoogleAuth;
 var client = new auth.OAuth2("814887631651-l5qk9hi208r2d6hcntta572599df2rbv.apps.googleusercontent.com", '', '');
@@ -35,15 +35,17 @@ router.get('/auth', function(req,res,next) {
     // Or, if multiple clients access the backend:
     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3],
     function(e, login) {
-      var payload = login.getPayload();
-      var userid = payload['sub'];
-      res.send(userid);	
+    	try {
+    		var payload = login.getPayload();
+     		var userid = payload['sub'];
+      		res.send(userid);	
+    	} catch (error) {
+    		res.send(error);
+    	}
+      
       // If request specified a G Suite domain:
       //var domain = payload['hd'];
     });
-	rp.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=E92B9E4AA98BA8FB1DB0C9132D275ED7&steamids=76561198056800639", function(error, steamHttpResponse, steamHttpBody) {
-		//console.log(steamHttpBody);
-	});
 });
 
 router.get('/signUp', function(req,res,next) {
@@ -54,19 +56,21 @@ router.get('/registerUser', function(req,res,next) {
 	var name = req.query.userName;
 	var email = req.query.emailAcc;
 	var password = req.query.pass;
-	var hash = bcrypt.hashSync(password, salt);
+	var hash = bcrypt.hashSync(password, salt);	
 	pg.connect(connectionString, function(err, clients, done) {
 		done();
 		if(err) {
 			res.redirect('/');
+		} else {
+			clients.query("INSERT INTO users(password, email, username) VALUES ($1, $2, $3);", [hash, email, name], function(err, result) {
+				if(err) {
+						res.sendStatus(500);
+				} else {
+					res.send("OK");
+				}
+			})
 		}
-		clients.query("INSERT INTO users(password, email, username) VALUES ($1, $2, $3);", [hash, email, name], function(err, result) {
-			
-			if(err) {
-				res.sendStatus(500);
-			}
-			res.sendStatus(200);
-		})
+		
 	})
 })
 
