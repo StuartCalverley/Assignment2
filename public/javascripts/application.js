@@ -20,7 +20,7 @@ function signOut() {
 /*window.setInterval(function() {
 	$.ajax({
 		type: 'GET',
-		url: '/mainPage/currentUsers',
+		url: '/currentUsers',
 		success: function(output) {
 			$('#numOfUsers').html(output);
 			//

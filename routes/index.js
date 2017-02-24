@@ -49,6 +49,28 @@ router.get('/signUp', function(req,res,next) {
 	res.render('signup');
 });
 
+router.get('/currentUsers', function(req,res,next) {
+
+	connection.getConnection(function(err,conn) {
+				if(!err) {
+					conn.query("SELECT * FROM users WHERE active=1;", function(error, result) {
+						try {
+							if(error) {
+								res.send("ERROR");
+							} else {
+								//console.log(result.length);
+								res.send("Number of current Users: "+ result.length);
+							}
+						} catch (e) {
+							res.send("ERROR");
+						}
+					})
+				} else {
+					res.send("ERROR");
+				}
+			})
+})
+
 router.get('/registerUser', function(req,res,next) {
 	var name = req.query.userName;
 	var active = 0;
