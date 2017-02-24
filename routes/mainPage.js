@@ -8,12 +8,6 @@ var client = new auth.OAuth2("221094573610-0ckr2a3h0d8rpa18fbpsh09381qpn25c.apps
 var router = express.Router();
 
 
-var connection = mysql.createPool({
-	host: 'us-cdbr-iron-east-04.cleardb.net',
-	user: 'bf23a0d88f3f72',
-	password: 'b078956a',
-	database: 'heroku_29cbaaca721eebf'
-})
 
 router.get('/', function(req,res,next) {
 	var id = req.query.id;
@@ -43,27 +37,7 @@ router.get('/recentGame', function(req,res,next) {
 	})
 })
 
-router.get('/currentUsers', function(req,res,next) {
 
-	connection.getConnection(function(err,conn) {
-				if(!err) {
-					conn.query("SELECT * FROM users WHERE active=1;", function(error, result) {
-						try {
-							if(error) {
-								res.send("ERROR");
-							} else {
-								//console.log(result.length);
-								res.send("Number of current Users: "+ result.length);
-							}
-						} catch (e) {
-							res.send("ERROR");
-						}
-					})
-				} else {
-					res.send("ERROR");
-				}
-			})
-})
 
 
 

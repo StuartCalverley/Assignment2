@@ -17,16 +17,16 @@ function signOut() {
 }
 
 
-/*window.setInterval(function() {
+window.setInterval(function() {
 	$.ajax({
 		type: 'GET',
 		url: '/currentUsers',
 		success: function(output) {
-			$('#numOfUsers').html(output);
+			$('#numOfUsers').html("Number of users: "+output[1]);
 			//
 		}
 	})
-}, 7000);*/
+}, 7000);
 
 $(document).ready(function() {
 	
