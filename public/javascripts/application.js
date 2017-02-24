@@ -17,7 +17,7 @@ function signOut() {
 }
 
 
-window.setInterval(function() {
+/*window.setInterval(function() {
 	$.ajax({
 		type: 'GET',
 		url: '/mainPage/currentUsers',
@@ -26,7 +26,7 @@ window.setInterval(function() {
 			//
 		}
 	})
-}, 7000);
+}, 7000);*/
 
 $(document).ready(function() {
 	
