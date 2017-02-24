@@ -1,12 +1,19 @@
 var express = require('express');
 var rp = require('request-promise');
 var GoogleAuth = require('google-auth-library');
-const pg = require('pg');
+var mysql = require('mysql')
 const connectionString = 'postgres://stuartCalverley:Nexxis13@assignment2db.cqoihnr68do8.us-west-2.rds.amazonaws.com:5432/assign2';
-var value = new pg.Client(connectionString);
 var auth = new GoogleAuth;
 var client = new auth.OAuth2("221094573610-0ckr2a3h0d8rpa18fbpsh09381qpn25c.apps.googleusercontent.com", '', '');
 var router = express.Router();
+
+
+var connection = mysql.createPool({
+	host: 'us-cdbr-iron-east-04.cleardb.net',
+	user: 'bf23a0d88f3f72',
+	password: 'b078956a',
+	database: 'heroku_29cbaaca721eebf'
+})
 
 router.get('/', function(req,res,next) {
 	var id = req.query.id;
@@ -37,22 +44,28 @@ router.get('/recentGame', function(req,res,next) {
 })
 
 router.get('/currentUsers', function(req,res,next) {
-	pg.connect(connectionString, function(err,clients,done) {
-		if(err) {
-			done();
-			res.send("ERROR");
-		} else {
-			clients.query("SELECT * FROM users WHERE active=TRUE;", function(error, result) {
-				if(error) {
-					done();
-					res.send("ERROR");
+
+	connection.getConnection(function(err,conn) {
+				if(!err) {
+					conn.query("SELECT * FROM users WHERE active=1;", function(error, result) {
+						try {
+							if(error) {
+								res.send("ERROR");
+							} else {
+								//console.log(result.length);
+								res.send("Number of current Users: "+ result.length);
+							}
+						} catch (e) {
+							res.send("ERROR");
+						}
+					})
 				} else {
-					done();
-					res.send(["SUCCESS", result.rows.length]);
+					res.send("ERROR");
 				}
 			})
-		}	
-	})
 })
+
+
+
 
 module.exports = router;

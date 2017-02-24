@@ -22,17 +22,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/twitterStuff', function(req,res,next) {
-	var options = {
-		uri: "https://freemusicarchive.org/api/get/tracks.json?api_key=ANAJV1P5QUYZME80"
-	};
 
-	rp(options).then(function (result) {
-		res.status(200).json(result);
-	}).catch(function(error) {
-		console.log("error: "+error);
-	});
-});
 
 router.get('/auth', function(req,res,next) {
 	var token = req.query.token;
@@ -90,43 +80,45 @@ router.get('/registerUser', function(req,res,next) {
 router.get('/logout', function(req,res,next) {
 	var email = req.query.email;
 	console.log(email);
-	pg.connect(connectionString, function(err,clients, done) {
-		
-		if(err) {
-			done();
-			res.send("ERROR");
+	
+	connection.getConnection(function(err,conn) {
+		if(!err) {
+			conn.query("UPDATE users SET active = 0 WHERE email = ('"+email+"');", function(err, result) {
+				try {
+					if(err) {
+						res.send("ERROR");
+					} else {
+						res.send("OK");
+					}
+				} catch (e) {
+					res.send("ERROR");
+				}
+			})
 		} else {
-			clients.query("UPDATE users SET active = FALSE WHERE email = ($1);",[email],function(error,resulter) {
-			if(error) {
-				done();
-				res.send("ERROR");
-			} else {
-				done();
-				res.send("SUCCESS");	
-			}
-		})
-		}		
+			res.send("NOPE");
+		}
 	})
 })
 
 router.get('/update', function(req,res,next) {
 	var email = req.query.email;	
 	console.log("updating active");
-	pg.connect(connectionString, function(err,clients, done) {
-		
-		if(err) {
-			done();
-			res.send(err);
+
+	connection.getConnection(function(err,conn) {
+		if(!err) {
+			conn.query("UPDATE users SET active = 1 WHERE email = ('"+email+"');", function(err, result) {
+				try {
+					if(err) {
+						res.send("ERROR");
+					} else {
+						res.send("OK");
+					}
+				} catch (e) {
+					res.send("ERROR");
+				}
+			})
 		} else {
-			clients.query("UPDATE users SET active=TRUE WHERE email=($1);",[email],function(error,resulter) {
-			if(error) {
-				done();
-				res.send(error);
-			} else {
-				done();
-				res.send(resulter);
-			}
-		})
+			res.send("NOPE");
 		}
 	})
 })
@@ -147,44 +139,24 @@ router.get('/application', function(req,res, next) {
 	      		var userid = payload['sub'];
 	    	} catch (err) {
 	    		googleSignIn = false;
-	    		pg.connect(connectionString, function (err, clients, done) {
-	    			if(err) {
-	    				done();
-	    				console.log(err);
-	    				res.redirect('/');
-	    			} else {
-	    				clients.query("SELECT * FROM users WHERE email='"+email+"';", function(error, result) {
-		    				if(error) {
-		    					done();
-		    					console.log("DAMN");
-		    					res.redirect('/');
-		    				}
-		    				if(result == undefined) {
-		    					done();
-		    					res.redirect('/');
-		    				} else {
-		    					done();
-		    					try {
-		    						bcrypt.compare(password, result.rows[0].password, function(err, ser) {
-				    					if(ser) {
-				    						try{
-				    							res.render('application');
-				    						} catch (e) {
-				    							res.redirect('/');
-				    						}
-				    					} else {
-				    						res.redirect('/');
-				    					}
-				    				})
-		    					} catch (errors) {
-		    						res.redirect('/');
-		    					}
-		    					
-		    				}
-		    				
-	    				})
-	    			}
-	    		})
+
+	    		connection.getConnection(function(err,conn) {
+					if(!err) {
+						conn.query("SELECT * FROM users WHERE email = ('"+email+"');", function(err, result) {
+						try {
+							if(err) {
+								res.redirect('/');
+							} else {
+								res.render('application');
+							}
+								} catch (e) {
+										res.redirect('/');
+									}
+								})
+							} else {
+								res.redirect('/');
+							}
+						})
 	    	}
 
 	    	if(googleSignIn) {

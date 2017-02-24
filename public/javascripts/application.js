@@ -22,10 +22,7 @@ window.setInterval(function() {
 		type: 'GET',
 		url: '/mainPage/currentUsers',
 		success: function(output) {
-			console.log(output[0]);
-			if(output[0] == "SUCCESS") {
-				$('#numOfUsers').html("Number of current users: "+ output[1]);
-			}
+			$('#numOfUsers').html(output);
 			//
 		}
 	})
