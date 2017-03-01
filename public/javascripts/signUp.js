@@ -6,7 +6,7 @@ $( document ).ready(function(){
 
 		/**
 		 * Creates an account for the user, if the account is valid (email account not in use)
-		 * they will be redirected to the application page.
+		 * they will be redirected to the home page.
 		 */
 		$.ajax({
 			type: 'GET',

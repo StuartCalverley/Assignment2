@@ -12,8 +12,10 @@ $(document).ready(function() {
 	
 });
 
+//Does the google signin 
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
+	//Passes in the id_token to the application route to verify if the id_token ligitiment
 	$.ajax({
 		type: 'GET',
 		url: '/auth',
@@ -25,6 +27,7 @@ function onSignIn(googleUser) {
 
 }
 
+//Redirects the user to the signup page
 function signUpPage() {
 	window.location.href="/signUp";
 }
